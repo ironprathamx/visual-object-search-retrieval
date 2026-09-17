@@ -21,7 +21,7 @@ Course mini-project for **Foundations of Computer Vision (FCV)**.
 - Stage 2 **BFMatcher KNN** matching, **Lowe’s ratio test** (0.75), and **RANSAC homography** (5 px threshold) with **inlier count** as the final rank score.
 - **UKBench-style evaluation**: Recall@10 against the three other images in each 4-image relevance group.
 - Experimental **HSV colour histogram** and **custom HOG** baselines (separate from the main SIFT pipeline).
-- Earlier **brute-force SIFT** retrieval prototype (`retrieve.py`) for comparison and timing experiments.
+- Earlier **brute-force SIFT** retrieval prototype (`src/experiments/retrieve.py`) for comparison and timing experiments.
 
 ---
 
@@ -61,7 +61,7 @@ The two-stage architecture reduces the number of expensive SIFT/RANSAC compariso
 
 ### Development and earlier prototypes
 
-**Brute-force SIFT prototype** (`retrieve.py`): Stage 1 compares the query to **every** database image using BFMatcher KNN + ratio test (match count = score), keeps the top **50** candidates, then RANSAC re-ranking. No TF-IDF or visual vocabulary.
+**Brute-force SIFT prototype** (`src/experiments/retrieve.py`): Stage 1 compares the query to **every** database image using BFMatcher KNN + ratio test (match count = score), keeps the top **50** candidates, then RANSAC re-ranking. No TF-IDF or visual vocabulary.
 
 ```
 Query → SIFT → [all images: BFMatcher KNN + ratio test → match count]
@@ -95,8 +95,8 @@ Query → SIFT → [all images: BFMatcher KNN + ratio test → match count]
 
 ### Inverted index
 
-- `build_inverted_index.py` maps each visual word id → list of image filenames that contain that word.
-- `test_inverted_index.py` measures how many images share at least one query word (candidate reduction).
+- `src/experiments/build_inverted_index.py` maps each visual word id → list of image filenames that contain that word.
+- `src/experiments/test_inverted_index.py` measures how many images share at least one query word (candidate reduction).
 - **Main retrieval scripts** (`evaluate_100.py`, `retrieve_tfidf_ransac.py`, `evaluate_retrieval.py`) **do not query the inverted index**; Stage 1 still scans all precomputed TF-IDF vectors.
 
 ### Descriptor matching
@@ -104,7 +104,7 @@ Query → SIFT → [all images: BFMatcher KNN + ratio test → match count]
 - **Final pipeline (Stage 2):** `cv2.BFMatcher()` or `BFMatcher(NORM_L2)` with **KNN** (`k=2`) in `evaluate_100.py`, `retrieve_tfidf_ransac.py`, and related scripts.
 - **Visual-word assignment (BoVW / query encoding):** also uses `BFMatcher` nearest-neighbour assignment to vocabulary centres.
 
-> FLANN-based approximate nearest-neighbour matching was investigated during development to address the descriptor-matching bottleneck (e.g. KD-tree configuration in `retrieve.py`: `trees=5`, `checks=25`). **`get_good_matches` in `retrieve.py` uses BFMatcher only**—FLANN is instantiated but not used on the current code path. The current retrieval implementation uses **BFMatcher** for candidate verification in the TF-IDF + RANSAC pipeline.
+> FLANN-based approximate nearest-neighbour matching was investigated during development to address the descriptor-matching bottleneck (e.g. KD-tree configuration in `src/experiments/retrieve.py`: `trees=5`, `checks=25`). **`get_good_matches` uses BFMatcher only**—FLANN is instantiated but not used on the current code path. The current retrieval implementation uses **BFMatcher** for candidate verification in the TF-IDF + RANSAC pipeline.
 
 ### Lowe’s ratio test
 
@@ -120,7 +120,7 @@ Query → SIFT → [all images: BFMatcher KNN + ratio test → match count]
 | Script / stage | Stage 1 score | Final rank score |
 |----------------|---------------|------------------|
 | `evaluate_100.py`, `retrieve_tfidf_ransac.py` | TF-IDF cosine | RANSAC inliers |
-| `retrieve.py` | Good match count (all DB) | RANSAC inliers |
+| `src/experiments/retrieve.py` | Good match count (all DB) | RANSAC inliers |
 | `evaluate_retrieval.py` | TF-IDF (same as above) | Experiments: inliers, good matches, ratios, and normalized combinations |
 
 ---
@@ -163,21 +163,15 @@ FCV/
 ├── README.md
 ├── dataset/            # local only — UKBench images
 ├── results/            # local only — generated features and indexes
-└── src/                # all Python scripts (run from this directory)
+└── src/                # run commands from this directory
     ├── precompute_features.py
     ├── sample_sift_descriptors.py
     ├── build_visual_vocabulary.py
     ├── build_tfidf_index.py
-    ├── build_inverted_index.py
     ├── retrieve_tfidf_ransac.py
     ├── evaluate_100.py
     ├── evaluate_retrieval.py
-    ├── retrieve.py
-    ├── test_tfidf_retrieval.py
-    ├── test_inverted_index.py
-    ├── precompute_histograms.py / test_histogram_retrieval.py
-    ├── precompute_hog.py / test_hog_retrieval.py
-    └── … (debug, visualization, and analysis utilities)
+    └── experiments/    # earlier approaches, baselines, debug/viz (optional)
 ```
 
 Large generated artifacts (not on GitHub) include:
@@ -188,9 +182,9 @@ Large generated artifacts (not on GitHub) include:
 | `results/sift_sample.npy` | `sample_sift_descriptors.py` | 100k descriptor sample for K-means |
 | `results/visual_vocabulary_2000.npy` | `build_visual_vocabulary.py` | 2000 × 128 visual word centres |
 | `results/tfidf_index_2000.pkl` | `build_tfidf_index.py` | TF-IDF vectors, IDF, document frequencies |
-| `results/inverted_index_2000.pkl` | `build_inverted_index.py` | Word → image postings (optional) |
+| `results/inverted_index_2000.pkl` | `src/experiments/build_inverted_index.py` | Word → image postings (optional) |
 | `results/evaluation_100_574.pkl` | `evaluate_100.py` | Per-query metrics for 100-query run |
-| `results/color_histograms.pkl`, `hog_features.pkl` | histogram / HOG precompute scripts | Baseline experiments |
+| `results/color_histograms.pkl`, `hog_features.pkl` | `src/experiments/` histogram / HOG scripts | Baseline experiments |
 
 On a full UKBench run, `results/sift_features.pkl` is approximately **6.6 GB** on disk (**10,200** images, **13,689,992** SIFT descriptors). UKBench, this file, and other generated `results/*.pkl` / `results/*.npy` artifacts are **not** in the repository—they are reproducible outputs of the scripts above and are excluded via `.gitignore`. Regenerating the SIFT cache requires significant time and disk space.
 
@@ -204,7 +198,7 @@ Python **3** with dependencies listed in `requirements.txt`:
 |---------|------|
 | **opencv-python** (`cv2`) | SIFT, matching, K-means, homography |
 | **numpy** | Arrays, TF-IDF vectors, descriptor data |
-| **matplotlib** | Visualization scripts (`sift_test.py`, `matching_test.py`, `inspect_dataset.py`) |
+| **matplotlib** | Optional visualization scripts in `src/experiments/` (`sift_test.py`, `matching_test.py`, `inspect_dataset.py`) |
 
 ```bash
 python3 -m venv .venv
@@ -249,10 +243,10 @@ python build_visual_vocabulary.py      # K-means → visual_vocabulary_2000.npy
 python build_tfidf_index.py            # TF-IDF index → tfidf_index_2000.pkl
 ```
 
-Optional (inverted index for analysis, not required for `evaluate_100.py`):
+Optional (inverted index for analysis, not required for the final pipeline):
 
 ```bash
-python build_inverted_index.py         # → inverted_index_2000.pkl
+python experiments/build_inverted_index.py         # → inverted_index_2000.pkl
 ```
 
 ### Single-query retrieval (TF-IDF + RANSAC)
@@ -265,8 +259,10 @@ Defaults: query `../dataset/ukbench/ukbench00000.jpg`, **574** TF-IDF candidates
 
 ### Single-query retrieval (brute-force SIFT prototype)
 
+Earlier exhaustive-matching approach (not required for the TF-IDF pipeline):
+
 ```bash
-python retrieve.py
+python experiments/retrieve.py
 ```
 
 Uses all images in Stage 1 (ratio-test match counts), top **50** candidates, then RANSAC. Prints Stage 1 / Stage 2 timings.
@@ -274,7 +270,7 @@ Uses all images in Stage 1 (ratio-test match counts), top **50** candidates, the
 ### TF-IDF only (no geometric stage)
 
 ```bash
-python test_tfidf_retrieval.py
+python experiments/test_tfidf_retrieval.py
 ```
 
 ### Evaluation
@@ -293,17 +289,19 @@ Writes `../results/evaluation_100_574.pkl` and prints aggregate Recall@10 and ti
 python evaluate_retrieval.py
 ```
 
-### Baselines and utilities
+### Experiments (optional)
+
+Scripts under `src/experiments/` are **not** required to run the final retrieval or 100-query evaluation. Paths remain relative to `src/` (`../dataset`, `../results`), so invoke them from `src/` as below.
 
 ```bash
-python precompute_histograms.py && python test_histogram_retrieval.py
-python precompute_hog.py && python test_hog_retrieval.py
-python test_inverted_index.py
-python analyze_vocabulary.py
-python keypoints_data_distribution.py
+python experiments/precompute_histograms.py && python experiments/test_histogram_retrieval.py
+python experiments/precompute_hog.py && python experiments/test_hog_retrieval.py
+python experiments/test_inverted_index.py
+python experiments/analyze_vocabulary.py
+python experiments/keypoints_data_distribution.py
 ```
 
-Debug / demo scripts: `matching_test.py`, `geometric_verification.py`, `sift_test.py`, `compare_images.py`, `debug_ransac.py`, `inspect_dataset.py`.
+Debug / visualization: `experiments/matching_test.py`, `experiments/geometric_verification.py`, `experiments/sift_test.py`, `experiments/compare_images.py`, `experiments/debug_ransac.py`, `experiments/inspect_dataset.py`.
 
 There is **no single CLI entry point**; the pipeline is a sequence of scripts as above.
 
@@ -342,10 +340,12 @@ See [Results](#results) for the main Recall@10 figure and protocol summary.
 
 ## Development experiments
 
-- **Brute-force SIFT prototype** (`retrieve.py`): full-database Stage 1 matching—useful for correctness checks; Stage 1 cost grows linearly with database size (development timings on the order of **minutes** for ~10k images have been observed; exact times depend on hardware and load).
+These live under `src/experiments/` and are optional.
+
+- **Brute-force SIFT prototype** (`experiments/retrieve.py`): full-database Stage 1 matching—useful for correctness checks; Stage 1 cost grows linearly with database size (development timings on the order of **minutes** for ~10k images have been observed; exact times depend on hardware and load).
 - **FLANN:** investigated as an approximate NN alternative during development; not used in the final TF-IDF + RANSAC path (see Descriptor matching above).
 - **Colour / HOG:** global HSV 2D histogram (32×32, correlation metric) and a **manual** 128×128 HOG-like descriptor (16×16 cells, 9 bins)—standalone baselines, not fused into the TF-IDF pipeline.
-- **Inverted index:** built (`build_inverted_index.py`) and analyzed (`test_inverted_index.py`, `analyze_vocabulary.py`) for candidate-set reduction; **primary retrieval does not use it**—Stage 1 scans all TF-IDF vectors.
+- **Inverted index:** built (`experiments/build_inverted_index.py`) and analyzed (`experiments/test_inverted_index.py`, `experiments/analyze_vocabulary.py`) for candidate-set reduction; **primary retrieval does not use it**—Stage 1 scans all TF-IDF vectors.
 
 ---
 
