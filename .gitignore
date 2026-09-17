@@ -1,0 +1,22 @@
+# Dataset
+dataset/
+
+# Generated feature databases and retrieval indexes
+results/*.pkl
+results/*.npy
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
