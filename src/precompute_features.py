@@ -3,9 +3,15 @@ import numpy as np
 import os
 import pickle
 import time
-import gzip
 
-dataset_path = "../dataset/ukbench"
+from paths import DATASET_DIR, RESULTS_DIR, require_dir
+
+dataset_path = str(
+    require_dir(
+        DATASET_DIR,
+        "Download UKBench and extract images to dataset/ukbench/",
+    )
+)
 
 sift = cv2.SIFT_create()
 
@@ -37,7 +43,9 @@ for filename in os.listdir(dataset_path):
     print(filename, ":", len(keypoints), "keypoints")
 
 
-with open("../results/sift_features.pkl", "wb") as f:
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+with open(RESULTS_DIR / "sift_features.pkl", "wb") as f:
     pickle.dump(features, f)
 
 print("Features saved.")

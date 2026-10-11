@@ -4,18 +4,37 @@ import pickle
 import time
 import math
 
-FEATURES_PATH = "../results/sift_features.pkl"
-VOCABULARY_PATH = "../results/visual_vocabulary_2000.npy"
-INDEX_PATH = "../results/tfidf_index_2000.pkl"
+from paths import (
+    SIFT_FEATURES_PATH,
+    VOCABULARY_PATH,
+    TFIDF_INDEX_PATH,
+    RESULTS_DIR,
+    require_file,
+)
+
+FEATURES_PATH = SIFT_FEATURES_PATH
+INDEX_PATH = TFIDF_INDEX_PATH
 
 print("Loading SIFT database...")
-with open(FEATURES_PATH, "rb") as f:
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+with open(
+    require_file(
+        FEATURES_PATH,
+        "Generate it with: python src/precompute_features.py",
+    ),
+    "rb",
+) as f:
     features = pickle.load(f)
 
 print("Database loaded.")
 
 print("Loading visual vocabulary...")
-vocabulary = np.load(VOCABULARY_PATH)
+vocabulary = np.load(
+    require_file(
+        VOCABULARY_PATH,
+        "Generate it with: python src/build_visual_vocabulary.py",
+    )
+)
 
 print("Vocabulary shape:", vocabulary.shape)
 

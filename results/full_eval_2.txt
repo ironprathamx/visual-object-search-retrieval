@@ -1,0 +1,38 @@
+======================================================================
+FINAL FULL UKBENCH EVALUATION
+======================================================================
+Queries evaluated: 2550
+Images in dataset: 10200
+Groups evaluated: 2550
+Failed queries: 0
+
+--- UKBench N-S ---
+Mean N-S score: 3.1553 / 4
+Mean N-S percentage: 78.88%
+
+--- Retrieval Performance ---
+Recall@1:  0.2882 (28.82%)
+Recall@4:  0.7388 (73.88%)
+Recall@10: 0.7872 (78.72%)
+
+Precision@1:  0.8647
+Precision@4:  0.5541
+Precision@10: 0.2362
+
+MRR: 0.8872
+
+Mean relevant images in Top-4: 2.2165 / 3
+Mean relevant images in Top-10: 2.3616 / 3
+
+--- Hit Rates ---
+Hit@1:  86.47%
+Hit@4:  91.10%
+Hit@10: 92.90%
+
+--- Runtime ---
+Total evaluation time: 605.50 minutes
+Average time per query: 14.25 seconds
+
+======================================================================
+EVALUATION COMPLETE
+======================================================================

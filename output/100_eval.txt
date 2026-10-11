@@ -1,0 +1,621 @@
+Loading SIFT database...
+SIFT database loaded.
+Loading TF-IDF index...
+TF-IDF index loaded.
+Loading visual vocabulary...
+Loading visual vocabulary...
+Vocabulary loaded.
+Vocabulary shape: (2000, 128)
+
+[1/100] Query: ukbench00000.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 3.231s
+Stage 2: 62.475s
+Total: 65.706s
+
+[2/100] Query: ukbench00004.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.449s
+Stage 2: 14.750s
+Total: 16.199s
+
+[3/100] Query: ukbench00008.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 3.345s
+Stage 2: 72.446s
+Total: 75.791s
+
+[4/100] Query: ukbench00012.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.911s
+Stage 2: 9.036s
+Total: 9.947s
+
+[5/100] Query: ukbench00016.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.962s
+Stage 2: 17.715s
+Total: 18.677s
+
+[6/100] Query: ukbench00020.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.300s
+Stage 2: 2.541s
+Total: 2.841s
+
+[7/100] Query: ukbench00024.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.378s
+Stage 2: 23.037s
+Total: 24.415s
+
+[8/100] Query: ukbench00028.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.173s
+Stage 2: 14.046s
+Total: 15.219s
+
+[9/100] Query: ukbench00032.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.330s
+Stage 2: 15.609s
+Total: 16.939s
+
+[10/100] Query: ukbench00036.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 1.044s
+Stage 2: 13.154s
+Total: 14.198s
+
+[11/100] Query: ukbench00040.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 3.584s
+Stage 2: 87.289s
+Total: 90.872s
+
+[12/100] Query: ukbench00044.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.979s
+Stage 2: 11.185s
+Total: 12.164s
+
+[13/100] Query: ukbench00048.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.054s
+Stage 2: 10.434s
+Total: 11.488s
+
+[14/100] Query: ukbench00052.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.028s
+Stage 2: 8.382s
+Total: 9.410s
+
+[15/100] Query: ukbench00056.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.419s
+Stage 2: 1.945s
+Total: 2.364s
+
+[16/100] Query: ukbench00060.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.232s
+Stage 2: 13.375s
+Total: 14.607s
+
+[17/100] Query: ukbench00064.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.878s
+Stage 2: 4.746s
+Total: 5.624s
+
+[18/100] Query: ukbench00068.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.616s
+Stage 2: 5.050s
+Total: 5.666s
+
+[19/100] Query: ukbench00072.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.511s
+Stage 2: 2.552s
+Total: 3.063s
+
+[20/100] Query: ukbench00076.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 2.110s
+Stage 2: 40.950s
+Total: 43.060s
+
+[21/100] Query: ukbench00080.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.731s
+Stage 2: 3.508s
+Total: 4.239s
+
+[22/100] Query: ukbench00084.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.948s
+Stage 2: 7.381s
+Total: 8.329s
+
+[23/100] Query: ukbench00088.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.252s
+Stage 2: 5.075s
+Total: 5.327s
+
+[24/100] Query: ukbench00092.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.240s
+Stage 2: 10.255s
+Total: 11.495s
+
+[25/100] Query: ukbench00096.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 1.019s
+Stage 2: 10.032s
+Total: 11.051s
+
+[26/100] Query: ukbench00100.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.841s
+Stage 2: 4.145s
+Total: 4.986s
+
+[27/100] Query: ukbench00104.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.499s
+Stage 2: 3.574s
+Total: 4.073s
+
+[28/100] Query: ukbench00108.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.604s
+Stage 2: 4.104s
+Total: 4.708s
+
+[29/100] Query: ukbench00112.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.514s
+Stage 2: 5.385s
+Total: 5.899s
+
+[30/100] Query: ukbench00116.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.936s
+Stage 2: 3.981s
+Total: 4.917s
+
+[31/100] Query: ukbench00120.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.018s
+Stage 2: 13.533s
+Total: 14.551s
+
+[32/100] Query: ukbench00124.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.205s
+Stage 2: 10.608s
+Total: 11.813s
+
+[33/100] Query: ukbench00128.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.737s
+Stage 2: 40.660s
+Total: 42.397s
+
+[34/100] Query: ukbench00132.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.288s
+Stage 2: 10.681s
+Total: 11.969s
+
+[35/100] Query: ukbench00136.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.636s
+Stage 2: 24.031s
+Total: 25.666s
+
+[36/100] Query: ukbench00140.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 1.203s
+Stage 2: 12.782s
+Total: 13.985s
+
+[37/100] Query: ukbench00144.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.022s
+Stage 2: 12.861s
+Total: 13.883s
+
+[38/100] Query: ukbench00148.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.134s
+Stage 2: 2.272s
+Total: 2.406s
+
+[39/100] Query: ukbench00152.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.850s
+Stage 2: 7.748s
+Total: 8.597s
+
+[40/100] Query: ukbench00156.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.092s
+Stage 2: 1.535s
+Total: 1.627s
+
+[41/100] Query: ukbench00160.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.497s
+Stage 2: 16.919s
+Total: 18.416s
+
+[42/100] Query: ukbench00164.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.247s
+Stage 2: 14.456s
+Total: 15.703s
+
+[43/100] Query: ukbench00168.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.589s
+Stage 2: 3.162s
+Total: 3.751s
+
+[44/100] Query: ukbench00172.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.189s
+Stage 2: 2.472s
+Total: 2.661s
+
+[45/100] Query: ukbench00176.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.955s
+Stage 2: 8.939s
+Total: 9.894s
+
+[46/100] Query: ukbench00180.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.550s
+Stage 2: 1.892s
+Total: 2.442s
+
+[47/100] Query: ukbench00184.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.159s
+Stage 2: 13.534s
+Total: 14.693s
+
+[48/100] Query: ukbench00188.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 0.207s
+Stage 2: 3.283s
+Total: 3.490s
+
+[49/100] Query: ukbench00192.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.154s
+Stage 2: 2.974s
+Total: 3.129s
+
+[50/100] Query: ukbench00196.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.721s
+Stage 2: 3.543s
+Total: 4.264s
+
+[51/100] Query: ukbench00200.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.592s
+Stage 2: 2.790s
+Total: 3.382s
+
+[52/100] Query: ukbench00204.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.634s
+Stage 2: 3.821s
+Total: 4.455s
+
+[53/100] Query: ukbench00208.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.871s
+Stage 2: 6.197s
+Total: 7.069s
+
+[54/100] Query: ukbench00212.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.438s
+Stage 2: 15.483s
+Total: 15.921s
+
+[55/100] Query: ukbench00216.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.860s
+Stage 2: 5.122s
+Total: 5.983s
+
+[56/100] Query: ukbench00220.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.578s
+Stage 2: 3.551s
+Total: 4.129s
+
+[57/100] Query: ukbench00224.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 0.639s
+Stage 2: 4.401s
+Total: 5.040s
+
+[58/100] Query: ukbench00228.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.317s
+Stage 2: 15.258s
+Total: 16.576s
+
+[59/100] Query: ukbench00232.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.918s
+Stage 2: 5.906s
+Total: 6.824s
+
+[60/100] Query: ukbench00236.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.746s
+Stage 2: 5.830s
+Total: 6.576s
+
+[61/100] Query: ukbench00240.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.075s
+Stage 2: 11.577s
+Total: 12.653s
+
+[62/100] Query: ukbench00244.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.554s
+Stage 2: 4.025s
+Total: 4.578s
+
+[63/100] Query: ukbench00248.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.641s
+Stage 2: 3.788s
+Total: 4.429s
+
+[64/100] Query: ukbench00252.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.993s
+Stage 2: 9.899s
+Total: 10.892s
+
+[65/100] Query: ukbench00256.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 1.026s
+Stage 2: 8.958s
+Total: 9.984s
+
+[66/100] Query: ukbench00260.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 1.020s
+Stage 2: 6.835s
+Total: 7.855s
+
+[67/100] Query: ukbench00264.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.134s
+Stage 2: 2.290s
+Total: 2.424s
+
+[68/100] Query: ukbench00268.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.822s
+Stage 2: 3.256s
+Total: 4.078s
+
+[69/100] Query: ukbench00272.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.891s
+Stage 2: 9.202s
+Total: 10.093s
+
+[70/100] Query: ukbench00276.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.074s
+Stage 2: 10.372s
+Total: 11.446s
+
+[71/100] Query: ukbench00280.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 1.092s
+Stage 2: 5.385s
+Total: 6.477s
+
+[72/100] Query: ukbench00284.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.941s
+Stage 2: 10.407s
+Total: 11.348s
+
+[73/100] Query: ukbench00288.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.570s
+Stage 2: 2.755s
+Total: 3.325s
+
+[74/100] Query: ukbench00292.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 0.244s
+Stage 2: 1.840s
+Total: 2.084s
+
+[75/100] Query: ukbench00296.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 0.177s
+Stage 2: 1.686s
+Total: 1.863s
+
+[76/100] Query: ukbench00300.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.323s
+Stage 2: 13.701s
+Total: 15.024s
+
+[77/100] Query: ukbench00304.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.103s
+Stage 2: 0.860s
+Total: 0.963s
+
+[78/100] Query: ukbench00308.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.114s
+Stage 2: 6.757s
+Total: 7.870s
+
+[79/100] Query: ukbench00312.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.539s
+Stage 2: 5.617s
+Total: 6.156s
+
+[80/100] Query: ukbench00316.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 0.098s
+Stage 2: 0.901s
+Total: 0.999s
+
+[81/100] Query: ukbench00320.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.361s
+Stage 2: 1.935s
+Total: 2.296s
+
+[82/100] Query: ukbench00324.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.685s
+Stage 2: 3.104s
+Total: 3.789s
+
+[83/100] Query: ukbench00328.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.716s
+Stage 2: 4.198s
+Total: 4.914s
+
+[84/100] Query: ukbench00332.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.156s
+Stage 2: 1.171s
+Total: 1.327s
+
+[85/100] Query: ukbench00336.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.127s
+Stage 2: 1.713s
+Total: 1.840s
+
+[86/100] Query: ukbench00340.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.982s
+Stage 2: 3.307s
+Total: 4.289s
+
+[87/100] Query: ukbench00344.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.639s
+Stage 2: 5.571s
+Total: 6.211s
+
+[88/100] Query: ukbench00348.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 1.058s
+Stage 2: 5.878s
+Total: 6.936s
+
+[89/100] Query: ukbench00352.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.102s
+Stage 2: 3.584s
+Total: 3.686s
+
+[90/100] Query: ukbench00356.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.114s
+Stage 2: 6.460s
+Total: 7.574s
+
+[91/100] Query: ukbench00360.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.566s
+Stage 2: 2.237s
+Total: 2.803s
+
+[92/100] Query: ukbench00364.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.628s
+Stage 2: 2.627s
+Total: 3.255s
+
+[93/100] Query: ukbench00368.jpg
+Recall@10: 2/3 (0.667)
+Stage 1: 0.175s
+Stage 2: 2.494s
+Total: 2.669s
+
+[94/100] Query: ukbench00372.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.121s
+Stage 2: 0.889s
+Total: 1.010s
+
+[95/100] Query: ukbench00376.jpg
+Recall@10: 0/3 (0.000)
+Stage 1: 0.183s
+Stage 2: 2.156s
+Total: 2.338s
+
+[96/100] Query: ukbench00380.jpg
+Recall@10: 1/3 (0.333)
+Stage 1: 0.308s
+Stage 2: 2.567s
+Total: 2.875s
+
+[97/100] Query: ukbench00384.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.465s
+Stage 2: 19.440s
+Total: 20.905s
+
+[98/100] Query: ukbench00388.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.118s
+Stage 2: 8.879s
+Total: 9.997s
+
+[99/100] Query: ukbench00392.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 0.163s
+Stage 2: 1.740s
+Total: 1.903s
+
+[100/100] Query: ukbench00396.jpg
+Recall@10: 3/3 (1.000)
+Stage 1: 1.258s
+Stage 2: 8.434s
+Total: 9.692s
+
+Candidate count: 574
+Mean Recall@10: 0.7800
+Mean Stage 1 time: 0.865s
+Mean Stage 2 time: 9.729s
+Mean total time: 10.594s
+Total experiment time: 1064.39s
+Queries with 3/3: 62/100
+Queries with 2/3: 20/100
+Queries with 1/3: 8/100
+Queries with 0/3: 10/100
+
+Saved detailed results to ../results/evaluation_100_574.pkl

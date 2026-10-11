@@ -2,15 +2,23 @@ import cv2
 import numpy as np
 import time
 
-SAMPLE_PATH = "../results/sift_sample.npy"
-VOCABULARY_PATH = "../results/visual_vocabulary_2000.npy"
+from paths import SIFT_SAMPLE_PATH, VOCABULARY_PATH, RESULTS_DIR, require_file
 
-NUM_WORDS = 2000
+SAMPLE_PATH = SIFT_SAMPLE_PATH
+
+NUM_WORDS = 4000
 
 
 print("Loading SIFT sample...")
 
-descriptors = np.load(SAMPLE_PATH)
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+descriptors = np.load(
+    require_file(
+        SAMPLE_PATH,
+        "Generate it with: python src/sample_sift_descriptors.py",
+    )
+)
 
 print("Sample shape:", descriptors.shape)
 

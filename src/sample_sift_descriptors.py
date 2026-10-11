@@ -2,14 +2,24 @@ import pickle
 import numpy as np
 import time
 
-FEATURES_PATH = "../results/sift_features.pkl"
-OUTPUT_PATH = "../results/sift_sample.npy"
+from paths import SIFT_FEATURES_PATH, SIFT_SAMPLE_PATH, RESULTS_DIR, require_file
+
+FEATURES_PATH = SIFT_FEATURES_PATH
+OUTPUT_PATH = SIFT_SAMPLE_PATH
 
 SAMPLE_SIZE = 100_000
 
 print("Loading database features...")
 
-with open(FEATURES_PATH, "rb") as f:
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+with open(
+    require_file(
+        FEATURES_PATH,
+        "Generate it with: python src/precompute_features.py",
+    ),
+    "rb",
+) as f:
     features = pickle.load(f)
 
 print("Database loaded.")

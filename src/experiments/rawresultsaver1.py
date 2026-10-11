@@ -12,10 +12,10 @@ from pathlib import Path
 # ============================================================
 
 FEATURES_PATH = "../results/sift_features.pkl"
-VOCABULARY_PATH = "../results/visual_vocabulary_2000.npy"
-INDEX_PATH = "../results/tfidf_index_2000.pkl"
+VOCABULARY_PATH = "../results/visual_vocabulary_4000.npy"
+INDEX_PATH = "../results/tfidf_index_4000.pkl"
 
-OUTPUT_PATH = "../results/retrieval_raw_2550.pkl.gz"
+OUTPUT_PATH = "../results/retrieval_raw_300_4k.pkl.gz"
 
 
 # ============================================================
@@ -36,7 +36,7 @@ RANSAC_THRESHOLD = 5.0
 # 4 images per group
 #
 # Every 4th image gives one query from each group.
-QUERY_INDICES = range(0, 10200, 4)
+QUERY_INDICES = range(0, 1200, 4)
 
 
 # ============================================================

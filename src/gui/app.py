@@ -4,8 +4,9 @@ from PIL import Image, ImageTk
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from paths import DATASET_DIR
 from retrieve import VisualSearchEngine
 
 
@@ -80,6 +81,7 @@ class VisualSearchGUI:
         self.results_frame = tk.Frame(root)
         self.results_frame.pack(pady=20)
 
+
     def select_image(self):
 
         path = filedialog.askopenfilename(
@@ -136,9 +138,7 @@ class VisualSearchGUI:
 
             for i, result in enumerate(results):
 
-                image_path = (
-                    "../dataset/ukbench/" + result["image"]
-                )
+                image_path = DATASET_DIR / result["image"]
 
                 image = Image.open(image_path)
 
@@ -198,21 +198,7 @@ class VisualSearchGUI:
             # Processing time
             # -----------------------------------------
 
-            time_label = tk.Label(
-                self.results_frame,
-                text=(
-                    f"Search completed in "
-                    f"{output['total_time']:.2f} seconds"
-                ),
-                font=("Arial", 12)
-            )
-
-            time_label.grid(
-                row=1,
-                column=0,
-                columnspan=4,
-                pady=20
-            )
+            print(f"Search completed in {output['total_time']:.2f} seconds")
 
         except Exception as e:
 
@@ -226,8 +212,7 @@ class VisualSearchGUI:
 # Run application
 # ---------------------------------------------
 
-root = tk.Tk()
-
-app = VisualSearchGUI(root)
-
-root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = VisualSearchGUI(root)
+    root.mainloop()

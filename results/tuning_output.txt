@@ -1,0 +1,1662 @@
+Loading files...
+Loaded.
+Images: 10200
+Vocabulary: 4000
+
+======================================================================
+LOWE RATIO + RANSAC PARAMETER TUNING
+======================================================================
+Queries:          300
+Candidates:       574
+Lowe ratios:      [0.65, 0.7, 0.75, 0.8, 0.85]
+RANSAC thresholds: [3.0, 5.0, 7.0, 10.0]
+Configurations:   20
+
+======================================================================
+BUILDING CACHE
+======================================================================
+Stage 1 + KNN will run only once per query/candidate.
+======================================================================
+
+Query 1/300: ukbench00000.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 2/300: ukbench00004.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 3/300: ukbench00008.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 4/300: ukbench00012.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 5/300: ukbench00016.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 6/300: ukbench00020.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 7/300: ukbench00024.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 8/300: ukbench00028.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 9/300: ukbench00032.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 10/300: ukbench00036.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 11/300: ukbench00040.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 12/300: ukbench00044.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 13/300: ukbench00048.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 14/300: ukbench00052.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 15/300: ukbench00056.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 16/300: ukbench00060.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 17/300: ukbench00064.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 18/300: ukbench00068.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 19/300: ukbench00072.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 20/300: ukbench00076.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 21/300: ukbench00080.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 22/300: ukbench00084.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 23/300: ukbench00088.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 24/300: ukbench00092.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 25/300: ukbench00096.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 26/300: ukbench00100.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 27/300: ukbench00104.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 28/300: ukbench00108.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 29/300: ukbench00112.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 30/300: ukbench00116.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 31/300: ukbench00120.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 32/300: ukbench00124.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 33/300: ukbench00128.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 34/300: ukbench00132.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 35/300: ukbench00136.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 36/300: ukbench00140.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 37/300: ukbench00144.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 38/300: ukbench00148.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 39/300: ukbench00152.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 40/300: ukbench00156.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 41/300: ukbench00160.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 42/300: ukbench00164.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 43/300: ukbench00168.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 44/300: ukbench00172.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 45/300: ukbench00176.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 46/300: ukbench00180.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 47/300: ukbench00184.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 48/300: ukbench00188.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 49/300: ukbench00192.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 50/300: ukbench00196.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 51/300: ukbench00200.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 52/300: ukbench00204.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 53/300: ukbench00208.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 54/300: ukbench00212.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 55/300: ukbench00216.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 56/300: ukbench00220.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 57/300: ukbench00224.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 58/300: ukbench00228.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 59/300: ukbench00232.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 60/300: ukbench00236.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 61/300: ukbench00240.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 62/300: ukbench00244.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 63/300: ukbench00248.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 64/300: ukbench00252.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 65/300: ukbench00256.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 66/300: ukbench00260.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 67/300: ukbench00264.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 68/300: ukbench00268.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 69/300: ukbench00272.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 70/300: ukbench00276.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 71/300: ukbench00280.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 72/300: ukbench00284.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 73/300: ukbench00288.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 74/300: ukbench00292.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 75/300: ukbench00296.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 76/300: ukbench00300.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 77/300: ukbench00304.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 78/300: ukbench00308.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 79/300: ukbench00312.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 80/300: ukbench00316.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 81/300: ukbench00320.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 82/300: ukbench00324.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 83/300: ukbench00328.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 84/300: ukbench00332.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 85/300: ukbench00336.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 86/300: ukbench00340.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 87/300: ukbench00344.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 88/300: ukbench00348.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 89/300: ukbench00352.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 90/300: ukbench00356.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 91/300: ukbench00360.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 92/300: ukbench00364.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 93/300: ukbench00368.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 94/300: ukbench00372.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 95/300: ukbench00376.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 96/300: ukbench00380.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 97/300: ukbench00384.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 98/300: ukbench00388.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 99/300: ukbench00392.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 100/300: ukbench00396.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 101/300: ukbench00400.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 102/300: ukbench00404.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 103/300: ukbench00408.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 104/300: ukbench00412.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 105/300: ukbench00416.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 106/300: ukbench00420.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 107/300: ukbench00424.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 108/300: ukbench00428.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 109/300: ukbench00432.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 110/300: ukbench00436.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 111/300: ukbench00440.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 112/300: ukbench00444.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 113/300: ukbench00448.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 114/300: ukbench00452.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 115/300: ukbench00456.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 116/300: ukbench00460.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 117/300: ukbench00464.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 118/300: ukbench00468.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 119/300: ukbench00472.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 120/300: ukbench00476.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 121/300: ukbench00480.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 122/300: ukbench00484.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 123/300: ukbench00488.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 124/300: ukbench00492.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 125/300: ukbench00496.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 126/300: ukbench00500.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 127/300: ukbench00504.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 128/300: ukbench00508.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 129/300: ukbench00512.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 130/300: ukbench00516.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 131/300: ukbench00520.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 132/300: ukbench00524.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 133/300: ukbench00528.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 134/300: ukbench00532.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 135/300: ukbench00536.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 136/300: ukbench00540.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 137/300: ukbench00544.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 138/300: ukbench00548.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 139/300: ukbench00552.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 140/300: ukbench00556.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 141/300: ukbench00560.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 142/300: ukbench00564.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 143/300: ukbench00568.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 144/300: ukbench00572.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 145/300: ukbench00576.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 146/300: ukbench00580.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 147/300: ukbench00584.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 148/300: ukbench00588.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 149/300: ukbench00592.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 150/300: ukbench00596.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 151/300: ukbench00600.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 152/300: ukbench00604.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 153/300: ukbench00608.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 154/300: ukbench00612.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 155/300: ukbench00616.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 156/300: ukbench00620.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 157/300: ukbench00624.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 158/300: ukbench00628.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 159/300: ukbench00632.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 160/300: ukbench00636.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 161/300: ukbench00640.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 162/300: ukbench00644.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 163/300: ukbench00648.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 164/300: ukbench00652.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 165/300: ukbench00656.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 166/300: ukbench00660.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 167/300: ukbench00664.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 168/300: ukbench00668.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 169/300: ukbench00672.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 170/300: ukbench00676.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 171/300: ukbench00680.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 172/300: ukbench00684.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 173/300: ukbench00688.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 174/300: ukbench00692.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 175/300: ukbench00696.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 176/300: ukbench00700.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 177/300: ukbench00704.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 178/300: ukbench00708.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 179/300: ukbench00712.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 180/300: ukbench00716.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 181/300: ukbench00720.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 182/300: ukbench00724.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 183/300: ukbench00728.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 184/300: ukbench00732.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 185/300: ukbench00736.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 186/300: ukbench00740.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 187/300: ukbench00744.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 188/300: ukbench00748.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 189/300: ukbench00752.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 190/300: ukbench00756.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 191/300: ukbench00760.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 192/300: ukbench00764.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 193/300: ukbench00768.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 194/300: ukbench00772.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 195/300: ukbench00776.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 196/300: ukbench00780.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 197/300: ukbench00784.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 198/300: ukbench00788.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 199/300: ukbench00792.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 200/300: ukbench00796.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 201/300: ukbench00800.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 202/300: ukbench00804.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 203/300: ukbench00808.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 204/300: ukbench00812.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 205/300: ukbench00816.jpg
+  Candidates: 574
+  KNN: 100/574
+  KNN: 200/574
+  KNN: 300/574
+  KNN: 400/574
+  KNN: 500/574
+
+Query 206/300: ukbench00820.jpg
+  Candidates: 574

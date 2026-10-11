@@ -1,1066 +1,706 @@
-import os
-import cv2
-import numpy as np
+import json
 import pickle
 import time
 
-
-FEATURES_PATH = "../results/sift_features.pkl"
-TFIDF_PATH = "../results/tfidf_index_2000.pkl"
-
-DATASET_PATH = "../dataset/ukbench"
-
-CANDIDATE_COUNT = 574
-TOP_K = 10
-
-# Full UKBench dataset:
-# 10,200 images / 4 images per group = 2,550 groups
-# One query from every group
-QUERY_INDICES = range(0, 10200, 4)
+from paths import DATASET_DIR, RESULTS_DIR, require_dir
+from retrieve import VisualSearchEngine
 
 
-def extract_query_features(image_path):
+# ============================================================
+# CONFIGURATION
+# ============================================================
 
-    image = cv2.imread(image_path)
+NUM_IMAGES = 10200
+IMAGES_PER_GROUP = 4 
 
-    if image is None:
-        raise ValueError(
-            f"Could not read image: {image_path}"
-        )
+# One query per UKBench group:
+# 00000, 00004, 00008, ..., 10196
+#
+# This evaluates the first image of each group as the query.
+# Therefore:
+#   10200 / 4 = 2550 queries
+QUERY_INDICES = range(0, NUM_IMAGES, IMAGES_PER_GROUP)
 
-    gray = cv2.cvtColor(
-        image,
-        cv2.COLOR_BGR2GRAY
-    )
-
-    sift = cv2.SIFT_create()
-
-    keypoints, descriptors = sift.detectAndCompute(
-        gray,
-        None
-    )
-
-    keypoint_locations = np.float32([
-        kp.pt for kp in keypoints
-    ])
-
-    return keypoint_locations, descriptors
+# Need at least 11 returned results to calculate @1, @4, @10.
+TOP_K = 11
 
 
-def get_good_matches(
-    query_descriptors,
-    database_descriptors
-):
+# ============================================================
+# HELPER FUNCTIONS
+# ============================================================
 
-    if (
-        query_descriptors is None
-        or database_descriptors is None
-    ):
-        return []
-
-    bf = cv2.BFMatcher()
-
-    matches = bf.knnMatch(
-        query_descriptors,
-        database_descriptors,
-        k=2
-    )
-
-    good_matches = []
-
-    for m, n in matches:
-
-        if m.distance < 0.75 * n.distance:
-            good_matches.append(m)
-
-    return good_matches
+def get_image_path(index):
+    """
+    Return the path to a UKBench image.
+    """
+    return DATASET_DIR / f"ukbench{index:05d}.jpg"
 
 
-def geometric_verification(
-    query_keypoints,
-    database_keypoints,
-    good_matches
-):
+def get_relevant_images(query_index):
+    """
+    Return the 3 relevant DATABASE images for a query.
 
-    if len(good_matches) < 4:
-        return 0
+    UKBench has 4 images per group.
 
-    src_points = np.float32([
-        query_keypoints[m.queryIdx]
-        for m in good_matches
-    ])
+    Example for query 00000:
 
-    dst_points = np.float32([
-        database_keypoints[m.trainIdx]
-        for m in good_matches
-    ])
+        00000  <- query
+        00001  <- relevant
+        00002  <- relevant
+        00003  <- relevant
 
-    H, mask = cv2.findHomography(
-        src_points,
-        dst_points,
-        cv2.RANSAC,
-        5.0
-    )
+    These 3 images are therefore the relevant images used for
+    Recall, Precision, Hit Rate, MRR, and mean relevant-image
+    calculations.
+    """
 
-    if H is None or mask is None:
-        return 0
+    group_start = (
+        query_index // IMAGES_PER_GROUP
+    ) * IMAGES_PER_GROUP
 
-    return int(np.sum(mask))
-
-
-def get_query_tfidf(
-    query_descriptors,
-    vocabulary,
-    idf
-):
-
-    if query_descriptors is None:
-        return None
-
-    words = []
-
-    batch_size = 500
+    relevant = set()
 
     for i in range(
-        0,
-        len(query_descriptors),
-        batch_size
+        group_start,
+        group_start + IMAGES_PER_GROUP
     ):
-
-        batch = query_descriptors[
-            i:i + batch_size
-        ]
-
-        distances = np.linalg.norm(
-            batch[:, None, :]
-            -
-            vocabulary[None, :, :],
-            axis=2
-        )
-
-        batch_words = np.argmin(
-            distances,
-            axis=1
-        )
-
-        words.extend(batch_words)
-
-    words = np.array(words)
-
-    tf = np.bincount(
-        words,
-        minlength=len(idf)
-    ).astype(np.float32)
-
-    if tf.sum() > 0:
-        tf /= tf.sum()
-
-    tfidf = tf * idf
-
-    norm = np.linalg.norm(tfidf)
-
-    if norm > 0:
-        tfidf /= norm
-
-    return tfidf
-
-
-def retrieve_candidates(
-    query_descriptors,
-    tfidf_index,
-    vocabulary,
-    candidate_count
-):
-
-    idf = tfidf_index["idf"]
-
-    tfidf_vectors = tfidf_index[
-        "tfidf_vectors"
-    ]
-
-    query_tfidf = get_query_tfidf(
-        query_descriptors,
-        vocabulary,
-        idf
-    )
-
-    scores = []
-
-    for filename, vector in tfidf_vectors.items():
-
-        score = float(
-            np.dot(
-                query_tfidf,
-                vector
+        if i != query_index:
+            relevant.add(
+                f"ukbench{i:05d}.jpg"
             )
-        )
 
-        scores.append(
-            (filename, score)
-        )
+    return relevant
 
-    scores.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
 
-    return scores[:candidate_count]
-
-
-def evaluate_query(
-    query_index,
-    features,
-    tfidf_index,
-    vocabulary
-):
-
-    query_filename = (
-        f"ukbench{query_index:05d}.jpg"
-    )
-
-    query_path = os.path.join(
-        DATASET_PATH,
-        query_filename
-    )
-
-    query_keypoints, query_descriptors = (
-        extract_query_features(query_path)
-    )
-
-    # =========================================================
-    # STAGE 1: TF-IDF
-    # =========================================================
-
-    stage1_start = time.time()
-
-    candidates = retrieve_candidates(
-        query_descriptors,
-        tfidf_index,
-        vocabulary,
-        CANDIDATE_COUNT
-    )
-
-    stage1_time = time.time() - stage1_start
-
-    # =========================================================
-    # STAGE 2: SIFT MATCHING + RANSAC
-    #
-    # IMPORTANT:
-    # Query image is NOT removed here.
-    # It stays in the ranking for N-S evaluation.
-    # =========================================================
-
-    stage2_start = time.time()
-
-    verified_results = []
-
-    for filename, tfidf_score in candidates:
-
-        data = features[filename]
-
-        good_matches = get_good_matches(
-            query_descriptors,
-            data["descriptors"]
-        )
-
-        inliers = geometric_verification(
-            query_keypoints,
-            data["keypoints"],
-            good_matches
-        )
-
-        verified_results.append(
-            (
-                filename,
-                inliers,
-                tfidf_score,
-                len(good_matches)
-            )
-        )
-
-    # Rank by RANSAC inliers
-    verified_results.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    # Keep query INCLUDED
-    final_results = verified_results[:TOP_K]
-
-    stage2_time = time.time() - stage2_start
-
-    # =========================================================
-    # GROUND TRUTH
-    # =========================================================
-
-    group = query_index // 4
-
-    group_images = {
-        f"ukbench{4 * group + i:05d}.jpg"
-        for i in range(4)
-    }
-
-    # The 3 OTHER relevant images
-    relevant = group_images - {
-        query_filename
-    }
-
-    # =========================================================
-    # FULL RANKING
-    # Query is still included here
-    # =========================================================
-
-    ranked_filenames_full = [
-        filename
-        for filename, _, _, _
-        in final_results
-    ]
-
-    # =========================================================
-    # UKBENCH N-S
-    #
-    # Top 4 results INCLUDING the query.
-    # Count how many belong to the query's
-    # 4-image object group.
-    # =========================================================
-
-    top4_full = ranked_filenames_full[:4]
-
-    ns_score = len(
-        set(top4_full) & group_images
-    )
-
-    # =========================================================
-    # RETRIEVAL METRICS
-    #
-    # Remove query for comparison with previous
-    # 100/300-query evaluations.
-    # =========================================================
-
-    ranked_filenames = [
-        filename
-        for filename in ranked_filenames_full
-        if filename != query_filename
-    ]
-
-    # ---------------------------------------------------------
-    # Relevant images @ K
-    # ---------------------------------------------------------
-
-    def relevant_at_k(k):
-
-        return len(
-            set(ranked_filenames[:k])
-            & relevant
-        )
-
-    correct_1 = relevant_at_k(1)
-    correct_4 = relevant_at_k(4)
-    correct_10 = relevant_at_k(10)
-
-    # ---------------------------------------------------------
-    # Recall
-    # ---------------------------------------------------------
-
-    recall_1 = correct_1 / 3
-    recall_4 = correct_4 / 3
-    recall_10 = correct_10 / 3
-
-    # ---------------------------------------------------------
-    # Precision
-    # ---------------------------------------------------------
-
-    precision_1 = correct_1 / 1
-    precision_4 = correct_4 / 4
-    precision_10 = correct_10 / 10
-
-    # ---------------------------------------------------------
-    # MRR
-    # ---------------------------------------------------------
-
-    reciprocal_rank = 0.0
-
-    for rank, filename in enumerate(
-        ranked_filenames,
-        start=1
-    ):
-
-        if filename in relevant:
-
-            reciprocal_rank = 1.0 / rank
-
-            break
-
-    # ---------------------------------------------------------
-    # Hit@K
-    # ---------------------------------------------------------
-
-    hit_1 = int(correct_1 > 0)
-    hit_4 = int(correct_4 > 0)
-    hit_10 = int(correct_10 > 0)
-
-    # ---------------------------------------------------------
-    # Relevant images in Top-K
-    # ---------------------------------------------------------
-
-    relevant_in_top4 = correct_4
-    relevant_in_top10 = correct_10
-
-    # =========================================================
-    # RETURN
-    # =========================================================
-
-    return {
-
-        "query": query_filename,
-
-        # N-S
-        "ns_score": ns_score,
-
-        # Existing retrieval metrics
-        "correct": correct_10,
-
-        "recall": recall_10,
-
-        "recall@1": recall_1,
-        "recall@4": recall_4,
-        "recall@10": recall_10,
-
-        "precision@1": precision_1,
-        "precision@4": precision_4,
-        "precision@10": precision_10,
-
-        "hit@1": hit_1,
-        "hit@4": hit_4,
-        "hit@10": hit_10,
-
-        "relevant@4": relevant_in_top4,
-        "relevant@10": relevant_in_top10,
-
-        "mrr": reciprocal_rank,
-
-        # Runtime
-        "stage1_time": stage1_time,
-        "stage2_time": stage2_time,
-        "total_time": (
-            stage1_time
-            + stage2_time
-        ),
-
-        # Top-10 ranking INCLUDING query
-        "results": final_results,
-
-        # Ground truth
-        "query_group": sorted(group_images),
-        "relevant_images": sorted(relevant)
-    }
-
+# ============================================================
+# MAIN EVALUATION
+# ============================================================
 
 def main():
 
-    # =========================================================
-    # LOAD DATABASE
-    # =========================================================
+    print("=" * 70)
+    print("FINAL FULL UKBENCH EVALUATION")
+    print("=" * 70)
 
-    print("Loading SIFT database...")
+    print(f"Dataset images      : {NUM_IMAGES}")
+    print(f"Queries evaluated   : {len(QUERY_INDICES)}")
+    print(f"Images per group    : {IMAGES_PER_GROUP}")
+    print("Relevant per query  : 3 other group images")
+    print(f"Top-K               : {TOP_K}")
 
-    with open(
-        FEATURES_PATH,
-        "rb"
-    ) as f:
+    print()
 
-        features = pickle.load(f)
+    print("Retrieval configuration:")
+    print("  Vocabulary        : K = 4000")
+    print("  Candidates        : 600")
+    print("  Lowe ratio        : 0.80")
+    print("  RANSAC threshold  : 5.0")
 
-    print("SIFT database loaded.")
+    print()
 
-    # =========================================================
-    # LOAD TF-IDF
-    # =========================================================
+    print("=" * 70)
 
-    print("Loading TF-IDF index...")
-
-    with open(
-        TFIDF_PATH,
-        "rb"
-    ) as f:
-
-        tfidf_index = pickle.load(f)
-
-    print("TF-IDF index loaded.")
-
-    # =========================================================
-    # LOAD VOCABULARY
-    # =========================================================
-
-    print("Loading visual vocabulary...")
-
-    vocabulary = np.load(
-        "../results/visual_vocabulary_2000.npy"
+    require_dir(
+        DATASET_DIR,
+        "Download UKBench and extract images to dataset/ukbench/",
     )
 
-    print("Vocabulary loaded.")
-    print(
-        "Vocabulary shape:",
-        vocabulary.shape
-    )
+    # --------------------------------------------------------
+    # Initialize the ACTUAL retrieval engine (K=4000)
+    # --------------------------------------------------------
 
-    # =========================================================
-    # EVALUATION
-    # =========================================================
+    engine = VisualSearchEngine()
 
-    all_results = []
+    # --------------------------------------------------------
+    # Metric accumulators
+    # --------------------------------------------------------
 
-    total_start = time.time()
+    num_queries = len(QUERY_INDICES)
 
-    total_queries = len(
-        list(QUERY_INDICES)
-    )
+    # Number of relevant images retrieved
+    total_relevant_at_1 = 0
+    total_relevant_at_4 = 0
+    total_relevant_at_10 = 0
 
-    print(
-        f"\nRunning evaluation on "
-        f"{total_queries} queries..."
-    )
+    # Number of queries with >= 1 relevant result
+    hits_at_1 = 0
+    hits_at_4 = 0
+    hits_at_10 = 0
 
-    for count, query_index in enumerate(
+    # Mean Reciprocal Rank
+    reciprocal_rank_sum = 0.0
+
+    # Standard UKBench N-S score
+    ns_sum = 0.0
+
+    # Mean number of relevant images
+    relevant_top4_sum = 0.0
+    relevant_top10_sum = 0.0
+
+    # Queries that fail
+    failed_queries = []
+
+    # Timing
+    overall_start = time.time()
+
+    # --------------------------------------------------------
+    # PROCESS ALL QUERIES
+    # --------------------------------------------------------
+
+    for query_number, query_index in enumerate(
         QUERY_INDICES,
         start=1
     ):
 
-        print(
-            f"\n[{count}/{total_queries}] "
-            f"Query: "
-            f"ukbench{query_index:05d}.jpg"
-        )
+        query_path = get_image_path(query_index)
+        query_filename = query_path.name
 
-        result = evaluate_query(
-            query_index,
-            features,
-            tfidf_index,
-            vocabulary
-        )
+        relevant = get_relevant_images(query_index)
 
-        all_results.append(result)
+        query_start = time.time()
 
-        print(
-            f"N-S: "
-            f"{result['ns_score']}/4"
-        )
+        try:
 
-        print(
-            f"Recall@10: "
-            f"{result['correct']}/3 "
-            f"({result['recall']:.3f})"
-        )
+            # =================================================
+            # CALL THE ACTUAL RETRIEVAL ENGINE
+            #
+            # TOP_K = 10 allows us to calculate:
+            #   Recall@1
+            #   Recall@4
+            #   Recall@10
+            #   Precision@1
+            #   Precision@4
+            #   Precision@10
+            #   Hit@1
+            #   Hit@4
+            #   Hit@10
+            #   MRR
+            #
+            # retrieve.py already ranks all 600 candidates.
+            # TOP_K only controls how many final results are
+            # returned.
+            # =================================================
 
-        print(
-            f"Stage 1: "
-            f"{result['stage1_time']:.3f}s"
-        )
+            output = engine.search(
+                str(query_path),
+                TOP_K,
+                INCLUDE_QUERY=True
+            )
 
-        print(
-            f"Stage 2: "
-            f"{result['stage2_time']:.3f}s"
-        )
+            results = output["results"]
 
-        print(
-            f"Total: "
-            f"{result['total_time']:.3f}s"
-        )
+            # ------------------------------------------------
+            # Extract ranked filenames
+            # ------------------------------------------------
+            ranked_images = [
+                result["image"]
+                for result in results
+            ]
+            # =================================================
+            # STANDARD UKBENCH N-S SCORE
+            #
+            # Standard UKBench:
+            #
+            #   4 images belong to each group.
+            #   The query image itself is normally in the
+            #   database and occupies one of the top-4 results.
+            #
+            #   N-S = number of correct group images in
+            #         the first 4 returned images.
+            #
+            # Maximum N-S = 4.
+            #
+            # =================================================
+
+            # Calculate N-S BEFORE removing query
+            top4_for_ns = ranked_images[:4]
+
+            ns_score = sum(
+                image in relevant or image == query_filename
+                for image in top4_for_ns
+            )
+
+            ns_sum += ns_score
+
+            ranked_images = [
+                image for image in ranked_images
+                if image != query_filename
+            ]
+
+            # =================================================
+            # TOP-1
+            # =================================================
+
+            top1 = ranked_images[:1]
+
+            relevant_count_1 = sum(
+                image in relevant
+                for image in top1
+            )
+
+            total_relevant_at_1 += relevant_count_1
+
+            if relevant_count_1 > 0:
+                hits_at_1 += 1
+
+            # =================================================
+            # TOP-4
+            #
+            # Used for Recall@4, Precision@4, Hit@4,
+            # and mean relevant images in Top-4.
+            #
+            # These metrics use the 3 OTHER relevant images
+            # because the query itself is excluded from retrieval.
+            # =================================================
+
+            top4 = ranked_images[:4]
+
+            relevant_count_4 = sum(
+                image in relevant
+                for image in top4
+            )
+
+            total_relevant_at_4 += relevant_count_4
+            relevant_top4_sum += relevant_count_4
+
+            if relevant_count_4 > 0:
+                hits_at_4 += 1
+
+            # =================================================
+            # TOP-10
+            # =================================================
+
+            top10 = ranked_images[:10]
+
+            relevant_count_10 = sum(
+                image in relevant
+                for image in top10
+            )
+
+            total_relevant_at_10 += relevant_count_10
+            relevant_top10_sum += relevant_count_10
+
+            if relevant_count_10 > 0:
+                hits_at_10 += 1
+
+
+            # =================================================
+            # MRR
+            #
+            # Since the query itself is excluded, MRR measures
+            # the rank of the first OTHER relevant image.
+            # =================================================
+
+            reciprocal_rank = 0.0
+
+            for rank, image in enumerate(
+                ranked_images,
+                start=1
+            ):
+
+                if image in relevant:
+                    reciprocal_rank = 1.0 / rank
+                    break
+
+            reciprocal_rank_sum += reciprocal_rank
+
+            # =================================================
+            # PROGRESS
+            # =================================================
+
+            query_time = time.time() - query_start
+
+            if (
+                query_number == 1
+                or query_number % 25 == 0
+                or query_number == num_queries
+            ):
+
+                elapsed = time.time() - overall_start
+
+                average_time = (
+                    elapsed / query_number
+                )
+
+                remaining = (
+                    num_queries - query_number
+                )
+
+                eta = remaining * average_time
+
+                print(
+                    f"[{query_number:4d}/{num_queries}] "
+                    f"{query_filename} | "
+                    f"Top-4 relevant: "
+                    f"{relevant_count_4}/3 | "
+                    f"N-S: {ns_score}/4 | "
+                    f"Time: {query_time:.2f}s | "
+                    f"ETA: {eta / 60:.1f} min"
+                )
+
+        except Exception as e:
+
+            failed_queries.append(
+                (
+                    query_index,
+                    query_filename,
+                    str(e)
+                )
+            )
+
+            print(
+                f"[ERROR] "
+                f"{query_number}/{num_queries} "
+                f"{query_filename}: {e}"
+            )
+
+    # ========================================================
+    # FINAL METRICS
+    # ========================================================
+
+    successful_queries = (
+        num_queries - len(failed_queries)
+    )
+
+    if successful_queries == 0:
+        print("\nNo successful queries.")
+        return
+
+    # --------------------------------------------------------
+    # Recall
+    #
+    # There are 3 relevant DATABASE images for each query
+    # because the query itself is excluded from retrieval.
+    #
+    # Recall@K =
+    # total relevant images retrieved at K
+    # -----------------------------------
+    # total relevant images available
+    # --------------------------------------------------------
+
+    recall_at_1 = (
+        total_relevant_at_1
+        / (3 * successful_queries)
+    )
+
+    recall_at_4 = (
+        total_relevant_at_4
+        / (3 * successful_queries)
+    )
+
+    recall_at_10 = (
+        total_relevant_at_10
+        / (3 * successful_queries)
+    )
+
+    # --------------------------------------------------------
+    # Precision
+    # --------------------------------------------------------
+
+    precision_at_1 = (
+        total_relevant_at_1
+        / successful_queries
+    )
+
+    precision_at_4 = (
+        total_relevant_at_4
+        / (4 * successful_queries)
+    )
+
+    precision_at_10 = (
+        total_relevant_at_10
+        / (10 * successful_queries)
+    )
+
+    # --------------------------------------------------------
+    # Hit Rate
+    # --------------------------------------------------------
+
+    hit_at_1 = (
+        hits_at_1
+        / successful_queries
+    )
+
+    hit_at_4 = (
+        hits_at_4
+        / successful_queries
+    )
+
+    hit_at_10 = (
+        hits_at_10
+        / successful_queries
+    )
+
+    # --------------------------------------------------------
+    # MRR
+    # --------------------------------------------------------
+
+    mrr = (
+        reciprocal_rank_sum
+        / successful_queries
+    )
+
+    # --------------------------------------------------------
+    # STANDARD UKBENCH N-S
+    #
+    # Maximum = 4.
+    # --------------------------------------------------------
+
+    ns_score = (
+        ns_sum
+        / successful_queries
+    )
+
+    ns_percentage = (
+        ns_score / 4.0
+    )
+
+    # --------------------------------------------------------
+    # Mean relevant images
+    #
+    # These are leave-one-out retrieval metrics and therefore
+    # have a maximum of 3 relevant database images.
+    # --------------------------------------------------------
+
+    mean_relevant_top4 = (
+        relevant_top4_sum
+        / successful_queries
+    )
+
+    mean_relevant_top10 = (
+        relevant_top10_sum
+        / successful_queries
+    )
+
+    # ========================================================
+    # PRINT FINAL RESULTS
+    # ========================================================
 
     total_time = (
-        time.time()
-        - total_start
+        time.time() - overall_start
     )
 
-    # =========================================================
-    # OVERALL STATISTICS
-    # =========================================================
-
-    # ---------------------------------------------------------
-    # N-S
-    # ---------------------------------------------------------
-
-    mean_ns = np.mean([
-        r["ns_score"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # Recall
-    # ---------------------------------------------------------
-
-    mean_recall_1 = np.mean([
-        r["recall@1"]
-        for r in all_results
-    ])
-
-    mean_recall_4 = np.mean([
-        r["recall@4"]
-        for r in all_results
-    ])
-
-    mean_recall_10 = np.mean([
-        r["recall@10"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # Precision
-    # ---------------------------------------------------------
-
-    mean_precision_1 = np.mean([
-        r["precision@1"]
-        for r in all_results
-    ])
-
-    mean_precision_4 = np.mean([
-        r["precision@4"]
-        for r in all_results
-    ])
-
-    mean_precision_10 = np.mean([
-        r["precision@10"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # MRR
-    # ---------------------------------------------------------
-
-    mean_mrr = np.mean([
-        r["mrr"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # Relevant images
-    # ---------------------------------------------------------
-
-    mean_relevant_4 = np.mean([
-        r["relevant@4"]
-        for r in all_results
-    ])
-
-    mean_relevant_10 = np.mean([
-        r["relevant@10"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # Hit rate
-    # ---------------------------------------------------------
-
-    hit_rate_1 = np.mean([
-        r["hit@1"]
-        for r in all_results
-    ])
-
-    hit_rate_4 = np.mean([
-        r["hit@4"]
-        for r in all_results
-    ])
-
-    hit_rate_10 = np.mean([
-        r["hit@10"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # Runtime
-    # ---------------------------------------------------------
-
-    mean_stage1 = np.mean([
-        r["stage1_time"]
-        for r in all_results
-    ])
-
-    mean_stage2 = np.mean([
-        r["stage2_time"]
-        for r in all_results
-    ])
-
-    mean_total = np.mean([
-        r["total_time"]
-        for r in all_results
-    ])
-
-    # ---------------------------------------------------------
-    # Top-10 distribution
-    # ---------------------------------------------------------
-
-    perfect = sum(
-        r["correct"] == 3
-        for r in all_results
-    )
-
-    two_correct = sum(
-        r["correct"] == 2
-        for r in all_results
-    )
-
-    one_correct = sum(
-        r["correct"] == 1
-        for r in all_results
-    )
-
-    zero_correct = sum(
-        r["correct"] == 0
-        for r in all_results
-    )
-
-    # ---------------------------------------------------------
-    # Candidate reduction
-    # ---------------------------------------------------------
-
-    dataset_size = len(features)
-
-    candidate_percentage = (
-        CANDIDATE_COUNT
-        / dataset_size
-    ) * 100
-
-    eliminated_percentage = (
-        1
-        -
-        CANDIDATE_COUNT
-        / dataset_size
-    ) * 100
-
-    # =========================================================
-    # FINAL RESULTS
-    # =========================================================
-
-    print("\n" + "=" * 60)
+    print()
+    print()
+    print("=" * 70)
     print("FINAL FULL UKBENCH EVALUATION")
-    print("=" * 60)
-
-    print(
-        f"Dataset: UKBench"
-    )
+    print("=" * 70)
 
     print(
         f"Queries evaluated: "
-        f"{total_queries}"
+        f"{successful_queries}"
     )
 
     print(
         f"Images in dataset: "
-        f"{dataset_size}"
+        f"{NUM_IMAGES}"
     )
 
     print(
         f"Groups evaluated: "
-        f"{total_queries}"
+        f"{successful_queries}"
     )
 
     print(
-        f"Relevant images per query: "
-        f"3"
+        f"Failed queries: "
+        f"{len(failed_queries)}"
     )
 
-    # =========================================================
-    # N-S
-    # =========================================================
+    print()
 
-    print("\n--- UKBench N-S ---")
+    # --------------------------------------------------------
+    # N-S
+    # --------------------------------------------------------
+
+    print("--- UKBench N-S ---")
 
     print(
         f"Mean N-S score: "
-        f"{mean_ns:.4f} / 4"
+        f"{ns_score:.4f} / 4"
     )
 
     print(
         f"Mean N-S percentage: "
-        f"{mean_ns / 4 * 100:.2f}%"
+        f"{ns_percentage * 100:.2f}%"
     )
 
-    # =========================================================
-    # RETRIEVAL
-    # =========================================================
+    print()
 
-    print("\n--- Retrieval Performance ---")
+    # --------------------------------------------------------
+    # Retrieval performance
+    # --------------------------------------------------------
+
+    print("--- Retrieval Performance ---")
 
     print(
         f"Recall@1:  "
-        f"{mean_recall_1:.4f} "
-        f"({mean_recall_1 * 100:.2f}%)"
+        f"{recall_at_1:.4f} "
+        f"({recall_at_1 * 100:.2f}%)"
     )
 
     print(
         f"Recall@4:  "
-        f"{mean_recall_4:.4f} "
-        f"({mean_recall_4 * 100:.2f}%)"
+        f"{recall_at_4:.4f} "
+        f"({recall_at_4 * 100:.2f}%)"
     )
 
     print(
         f"Recall@10: "
-        f"{mean_recall_10:.4f} "
-        f"({mean_recall_10 * 100:.2f}%)"
+        f"{recall_at_10:.4f} "
+        f"({recall_at_10 * 100:.2f}%)"
     )
+
+    print()
 
     print(
         f"Precision@1:  "
-        f"{mean_precision_1:.4f}"
+        f"{precision_at_1:.4f}"
     )
 
     print(
         f"Precision@4:  "
-        f"{mean_precision_4:.4f}"
+        f"{precision_at_4:.4f}"
     )
 
     print(
         f"Precision@10: "
-        f"{mean_precision_10:.4f}"
+        f"{precision_at_10:.4f}"
     )
+
+    print()
 
     print(
         f"MRR: "
-        f"{mean_mrr:.4f}"
+        f"{mrr:.4f}"
     )
+
+    print()
 
     print(
         f"Mean relevant images in Top-4: "
-        f"{mean_relevant_4:.4f} / 3"
+        f"{mean_relevant_top4:.4f} / 3"
     )
 
     print(
         f"Mean relevant images in Top-10: "
-        f"{mean_relevant_10:.4f} / 3"
+        f"{mean_relevant_top10:.4f} / 3"
     )
 
-    # =========================================================
-    # HIT RATE
-    # =========================================================
+    print()
 
-    print("\n--- Hit Rate ---")
+    # --------------------------------------------------------
+    # Hit rates
+    # --------------------------------------------------------
+
+    print("--- Hit Rates ---")
 
     print(
         f"Hit@1:  "
-        f"{hit_rate_1 * 100:.2f}%"
+        f"{hit_at_1 * 100:.2f}%"
     )
 
     print(
         f"Hit@4:  "
-        f"{hit_rate_4 * 100:.2f}%"
+        f"{hit_at_4 * 100:.2f}%"
     )
 
     print(
         f"Hit@10: "
-        f"{hit_rate_10 * 100:.2f}%"
+        f"{hit_at_10 * 100:.2f}%"
     )
 
-    # =========================================================
-    # TOP-10 DISTRIBUTION
-    # =========================================================
+    print()
 
-    print("\n--- Top-10 Distribution ---")
+    # --------------------------------------------------------
+    # Runtime
+    # --------------------------------------------------------
 
-    print(
-        f"3/3 relevant: "
-        f"{perfect}/{total_queries} "
-        f"({perfect / total_queries * 100:.2f}%)"
-    )
+    print("--- Runtime ---")
 
     print(
-        f"2/3 relevant: "
-        f"{two_correct}/{total_queries} "
-        f"({two_correct / total_queries * 100:.2f}%)"
+        f"Total evaluation time: "
+        f"{total_time / 60:.2f} minutes"
     )
 
     print(
-        f"1/3 relevant: "
-        f"{one_correct}/{total_queries} "
-        f"({one_correct / total_queries * 100:.2f}%)"
+        f"Average time per query: "
+        f"{total_time / successful_queries:.2f} seconds"
     )
 
-    print(
-        f"0/3 relevant: "
-        f"{zero_correct}/{total_queries} "
-        f"({zero_correct / total_queries * 100:.2f}%)"
-    )
+    # --------------------------------------------------------
+    # Failed queries
+    # --------------------------------------------------------
 
-    # =========================================================
-    # RUNTIME
-    # =========================================================
+    if failed_queries:
 
-    print("\n--- Runtime ---")
+        print()
+        print("--- Failed Queries ---")
 
-    print(
-        f"Candidate count: "
-        f"{CANDIDATE_COUNT}"
-    )
+        for (
+            query_index,
+            filename,
+            error
+        ) in failed_queries:
 
-    print(
-        f"Candidate percentage: "
-        f"{candidate_percentage:.2f}% "
-        f"of dataset"
-    )
+            print(
+                f"{query_index}: "
+                f"{filename} -> {error}"
+            )
 
-    print(
-        f"Images eliminated before Stage 2: "
-        f"{eliminated_percentage:.2f}%"
-    )
+    print()
+    print("=" * 70)
+    print("EVALUATION COMPLETE")
+    print("=" * 70)
 
-    print(
-        f"Mean Stage 1 time: "
-        f"{mean_stage1:.3f}s"
-    )
-
-    print(
-        f"Mean Stage 2 time: "
-        f"{mean_stage2:.3f}s"
-    )
-
-    print(
-        f"Mean total/query: "
-        f"{mean_total:.3f}s"
-    )
-
-    print(
-        f"Total experiment time: "
-        f"{total_time:.2f}s "
-        f"({total_time / 60:.2f} min)"
-    )
-
-    # =========================================================
-    # SAVE RESULTS
-    # =========================================================
-
-    output = {
-
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    summary = {
         "configuration": {
-
             "dataset": "UKBench",
-
-            "dataset_size":
-                dataset_size,
-
-            "queries":
-                total_queries,
-
-            "candidate_count":
-                CANDIDATE_COUNT,
-
-            "top_k":
-                TOP_K,
-
-            "relevant_per_query":
-                3,
-
-            "sift":
-                True,
-
-            "vocabulary_size":
-                len(vocabulary),
-
-            "ratio_test":
-                0.75,
-
-            "ransac_threshold":
-                5.0,
-
-            "query_indices":
-                "range(0, 10200, 4)"
+            "dataset_size": NUM_IMAGES,
+            "queries": successful_queries,
+            "vocabulary_size": 4000,
+            "candidate_count": 600,
+            "ratio_test": 0.80,
+            "ransac_threshold": 5.0,
+            "ranking": "0.25*tfidf + 0.70*log1p(good) + 0.05*log1p(inliers)",
         },
-
         "metrics": {
-
-            "N-S":
-                mean_ns,
-
-            "N-S_percentage":
-                mean_ns / 4,
-
-            "recall@1":
-                mean_recall_1,
-
-            "recall@4":
-                mean_recall_4,
-
-            "recall@10":
-                mean_recall_10,
-
-            "precision@1":
-                mean_precision_1,
-
-            "precision@4":
-                mean_precision_4,
-
-            "precision@10":
-                mean_precision_10,
-
-            "mrr":
-                mean_mrr,
-
-            "mean_relevant@4":
-                mean_relevant_4,
-
-            "mean_relevant@10":
-                mean_relevant_10,
-
-            "hit@1":
-                hit_rate_1,
-
-            "hit@4":
-                hit_rate_4,
-
-            "hit@10":
-                hit_rate_10,
-
-            "perfect_3of3":
-                perfect,
-
-            "correct_2of3":
-                two_correct,
-
-            "correct_1of3":
-                one_correct,
-
-            "correct_0of3":
-                zero_correct,
-
-            "candidate_percentage":
-                candidate_percentage,
-
-            "eliminated_percentage":
-                eliminated_percentage,
-
-            "mean_stage1_time":
-                mean_stage1,
-
-            "mean_stage2_time":
-                mean_stage2,
-
-            "mean_total_time":
-                mean_total,
-
-            "total_experiment_time":
-                total_time
+            "N-S": ns_score,
+            "N-S_percentage": ns_percentage,
+            "recall@1": recall_at_1,
+            "recall@4": recall_at_4,
+            "recall@10": recall_at_10,
+            "precision@1": precision_at_1,
+            "precision@4": precision_at_4,
+            "precision@10": precision_at_10,
+            "mrr": mrr,
+            "mean_relevant@4": mean_relevant_top4,
+            "mean_relevant@10": mean_relevant_top10,
+            "hit@1": hit_at_1,
+            "hit@4": hit_at_4,
+            "hit@10": hit_at_10,
+            "total_evaluation_time_seconds": total_time,
         },
-
-        "queries":
-            all_results
+        "failed_queries": [
+            {"index": i, "filename": name, "error": err}
+            for i, name, err in failed_queries
+        ],
     }
+    out_pkl = RESULTS_DIR / "final_eval_4k_summary.pkl"
+    out_json = RESULTS_DIR / "final_eval_4k_summary.json"
+    with open(out_pkl, "wb") as f:
+        pickle.dump(summary, f)
+    with open(out_json, "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2, default=str)
+    print()
+    print("Saved:")
+    print(f"  {out_pkl}")
+    print(f"  {out_json}")
 
-    output_path = (
-        "../results/final_eval.pkl"
-    )
 
-    with open(
-        output_path,
-        "wb"
-    ) as f:
-
-        pickle.dump(
-            output,
-            f
-        )
-
-    print(
-        "\nSaved detailed results to "
-        f"{output_path}"
-    )
-
+# ============================================================
+# ENTRY POINT
+# ============================================================
 
 if __name__ == "__main__":
     main()

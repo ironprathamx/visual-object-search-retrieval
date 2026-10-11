@@ -4,12 +4,18 @@ import pickle
 import time
 import os
 
+from paths import (
+    SIFT_FEATURES_PATH,
+    VOCABULARY_PATH,
+    TFIDF_INDEX_PATH,
+    require_file,
+)
 
-FEATURES_PATH = "../results/sift_features.pkl"
-VOCABULARY_PATH = "../results/visual_vocabulary_2000.npy"
-INDEX_PATH = "../results/tfidf_index_2000.pkl"
 
-CANDIDATE_COUNT = 574
+FEATURES_PATH = SIFT_FEATURES_PATH
+INDEX_PATH = TFIDF_INDEX_PATH
+
+CANDIDATE_COUNT = 600
 
 
 class VisualSearchEngine:
@@ -20,12 +26,29 @@ class VisualSearchEngine:
         # Load precomputed data
         # ---------------------------------------------
 
-        with open(FEATURES_PATH, "rb") as f:
+        with open(
+            require_file(
+                FEATURES_PATH,
+                "Generate it with: python src/precompute_features.py",
+            ),
+            "rb",
+        ) as f:
             self.features = pickle.load(f)
 
-        self.vocabulary = np.load(VOCABULARY_PATH)
+        self.vocabulary = np.load(
+            require_file(
+                VOCABULARY_PATH,
+                "Generate it with: python src/build_visual_vocabulary.py",
+            )
+        )
 
-        with open(INDEX_PATH, "rb") as f:
+        with open(
+            require_file(
+                INDEX_PATH,
+                "Generate it with: python src/build_tfidf_index.py",
+            ),
+            "rb",
+        ) as f:
             index = pickle.load(f)
 
         self.tfidf_vectors = index["tfidf_vectors"]
@@ -41,7 +64,7 @@ class VisualSearchEngine:
         self.bf = cv2.BFMatcher(cv2.NORM_L2)
 
 
-    def search(self, QUERY_PATH, TOP_K):
+    def search(self, QUERY_PATH, TOP_K, INCLUDE_QUERY=False):
 
         # ---------------------------------------------
         # Load query image
@@ -136,7 +159,7 @@ class VisualSearchEngine:
 
         for filename, vector in self.tfidf_vectors.items():
 
-            if filename == query_filename:
+            if not INCLUDE_QUERY and filename == query_filename:
                 continue
 
             similarity = np.dot(
@@ -197,7 +220,7 @@ class VisualSearchEngine:
 
             for m, n in knn_matches:
 
-                if m.distance < 0.75 * n.distance:
+                if m.distance < 0.8 * n.distance:
                     good_matches.append(m)
 
             # -----------------------------------------
@@ -250,18 +273,112 @@ class VisualSearchEngine:
         # Final ranking
         # ---------------------------------------------
 
-        verified_results.sort(
-            key=lambda x: x[1],
-            reverse=True
+# ---------------------------------------------
+# Final ranking score
+# ---------------------------------------------
+
+        # Extract raw scores
+        tfidf_scores = np.array(
+            [x[2] for x in verified_results],
+            dtype=np.float32
         )
 
+        good_scores = np.array(
+            [x[3] for x in verified_results],
+            dtype=np.float32
+        )
+
+        inlier_scores = np.array(
+            [x[1] for x in verified_results],
+            dtype=np.float32
+        )
+
+
+        # ---------------------------------------------
+        # Min-max normalization
+        # ---------------------------------------------
+
+        def min_max_normalize(values):
+
+            minimum = values.min()
+            maximum = values.max()
+
+            if maximum == minimum:
+                return np.zeros_like(values)
+
+            return (
+                (values - minimum)
+                / (maximum - minimum)
+            )
+
+
+        tfidf_norm = min_max_normalize(
+            tfidf_scores
+        )
+
+        good_norm = min_max_normalize(
+            good_scores
+        )
+
+        inlier_norm = min_max_normalize(
+            inlier_scores
+        )
+
+
+        # ---------------------------------------------
+        # Weighted final score
+        # ---------------------------------------------
+
+        final_scores = (
+            0.25 * tfidf_norm
+            + 0.7 * np.log1p(good_norm)
+            + 0.05 * np.log1p(inlier_norm)
+        )
+
+
+        # ---------------------------------------------
+        # Attach final scores
+        # ---------------------------------------------
+
+        updated_results = []
+
+        for i, result in enumerate(verified_results):
+
+            filename = result[0]
+            inliers = result[1]
+            tfidf_score = result[2]
+            good_matches = result[3]
+
+            updated_results.append(
+                (
+                    filename,
+                    inliers,
+                    tfidf_score,
+                    good_matches,
+                    float(final_scores[i])
+                )
+            )
+
+
+        verified_results = updated_results
+
+
+        # ---------------------------------------------
+        # Final ranking
+        # ---------------------------------------------
+
+        verified_results.sort(
+            key=lambda x: x[4],
+            reverse=True
+        )
         results = []
 
         for rank, (
             filename,
             inliers,
             tfidf_score,
-            good_matches
+            good_matches,
+            score
         ) in enumerate(
             verified_results[:TOP_K],
             start=1
@@ -272,7 +389,8 @@ class VisualSearchEngine:
                 "image": filename,
                 "inliers": inliers,
                 "tfidf_score": tfidf_score,
-                "good_matches": good_matches
+                "good_matches": good_matches,
+                "final_score": score
             }
 
             results.append(result)
