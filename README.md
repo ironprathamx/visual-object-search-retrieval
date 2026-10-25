@@ -2,13 +2,19 @@
 
 Search a photo collection with a query image using classical computer vision. This Foundations of Computer Vision mini-project indexes the **10,200-image UKBench** dataset with SIFT and returns visually related objects through a Tkinter desktop app.
 
-![Search pipeline: SIFT, visual words, TF-IDF shortlist, geometric verification, ranked matches](assets/pipeline.svg)
+<p align="center">
+  <img src="assets/search-demo.gif" alt="Select a query and see the top four matches" width="800">
+</p>
 
-![Select a query and see the top four matches](assets/search-demo.gif)
-
-![Search result showing the query and four ranked matches](assets/search-result.png)
+<p align="center">
+  <b>10,200 images</b> · <b>2,550 evaluation queries</b> · <b>3.1553 / 4 mean N-S score</b>
+</p>
 
 ## How it works
+
+<p align="center">
+  <img src="assets/pipeline.svg" alt="SIFT, visual words, TF-IDF shortlist, geometric verification, and ranked matches" width="1000">
+</p>
 
 1. **Index once:** Extract SIFT keypoints and descriptors; sample 100,000 descriptors to train a **4,000-word** K-means vocabulary; build L2-normalized TF-IDF vectors for every image.
 2. **Shortlist:** Encode the query with the same vocabulary and scan the stored vectors by cosine similarity, retaining the best **600** candidates.
@@ -31,6 +37,14 @@ The [recorded full evaluation](results/full_eval_2.txt) uses the first image fro
 N-S counts the query itself if it appears in the top four. Recall and hit rates exclude the query and treat the other **three** images in its group as relevant; thus Recall@1 and Hit@1 have different denominators. The recorded run took **605.5 minutes** overall on a MacBook M2 Air.
 
 The engineering challenge was uneven feature density (**5 to 13,276 SIFT keypoints per image**) and a feature cache exceeding **7 GB**. An early exhaustive SIFT query took **537.9 s** ([original run](output/init/initial.png)); BoVW/TF-IDF reduced the expensive verification set. These prototype and final timings come from different runs, so they are illustrative rather than a controlled speed comparison.
+
+## Example result
+
+<p align="center">
+  <img src="assets/search-result.png" alt="Tkinter GUI showing a query image and four ranked UKBench matches" width="850">
+</p>
+
+The GUI shows the query alongside its four highest-ranked results. This example includes a distractor; the aggregate performance above covers all 2,550 evaluation queries.
 
 ## Run locally
 
