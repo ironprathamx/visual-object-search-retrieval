@@ -6,7 +6,7 @@ Search a photo collection with a query image using classical computer vision. Th
 
 ![Select a query and see the top four matches](assets/search-demo.gif)
 
-[Watch the full demo](assets/full-demo.mp4) · [View a high-resolution result](assets/search-results.png)
+![Search result showing the query and four ranked matches](assets/search-result.png)
 
 ## How it works
 
