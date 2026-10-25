@@ -59,4 +59,3 @@ To reproduce the group-level evaluation after indexing, run `python src/final_ev
 ## Contributors
 
 - **Pratham Joshi:** backend, search engine, indexing and evaluation pipeline.
-- **Mehran P. S. Dhakray:** Tkinter GUI and work on the later CLIP/CNN extension.
